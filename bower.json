@@ -1,0 +1,20 @@
+{
+  "name": "Task3-Database",
+  "authors": [
+    "Camilo Parra <ccparram@unal.edu.co>"
+  ],
+  "description": "Task 3 for course 'Bases de datos I', Universidad Nacional de Colombia",
+  "main": "index.html",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6"
+  }
+}
