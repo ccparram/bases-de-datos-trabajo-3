@@ -50,7 +50,7 @@
             
           </ul>
           <ul class="nav nav-sidebar">
-            <li><a href="#">Clientes</a></li>
+            <li id="clientes"><a href="#">Clientes</a></li>
             <li><a href="#">Envíos</a></li>
             <li><a href="#">Paquetes</a></li>
           </ul>
@@ -85,6 +85,10 @@
       
       $( "#inicio" ).click(function() {
         $("#includedContent").load("view/inicio/inicio.html"); 
+      });
+      
+      $( "#clientes" ).click(function() {
+        $("#includedContent").load("view/cliente/forms.html"); 
       });
     </script>
   </body>
