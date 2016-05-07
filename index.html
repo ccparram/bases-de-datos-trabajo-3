@@ -46,7 +46,7 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">Inicio <span class="sr-only">(current)</span></a></li>
+            <li id="inicio" class="active"><a href="#">Inicio <span class="sr-only">(current)</span></a></li>
             
           </ul>
           <ul class="nav nav-sidebar">
@@ -60,22 +60,9 @@
           </ul>
         </div>
         
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">Enunciado</h1>
-
-          <div class="row placeholders">
-            <div class="col-xs-12 col-sm-8 placeholder">
-              <p>Escribir enunciado</p>
-            </div>
-          </div>
-
-          <h2 class="sub-header">Modelo Entidad Relación</h2>
+        <div id="includedContent" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           
-          <div class="row placeholders">
-            <div class="col-xs-12 col-sm-8 placeholder">
-              <p>Agregar imagen modelo ER</p>
-            </div>
-          </div>
+          
 
         </div>
       </div>
@@ -90,9 +77,14 @@
     <script src="bower_components/bootstrap/assets/js/docs.min.js"></script>
     
     
+
     <script>
-      $( "#loadMore" ).click(function() {
-        $("#includedContent").load("view/cliente/forms.html"); 
+      $( document ).ready(function() {
+        $("#includedContent").load("view/inicio/inicio.html"); 
+      });
+      
+      $( "#inicio" ).click(function() {
+        $("#includedContent").load("view/inicio/inicio.html"); 
       });
     </script>
   </body>
