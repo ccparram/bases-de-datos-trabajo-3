@@ -64,9 +64,6 @@
   </div>
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="../../bower_components/jquery/dist/jquery.min.js"><\/script>')</script>
-
 <script> 
  // Variable to hold request
   var request;
@@ -92,6 +89,7 @@
       // Let's disable the inputs for the duration of the Ajax request.
       $inputs.prop("disabled", true);
       
+      
       // Fire off the request to /form.php
       request = $.ajax({
           url: "controllers/cliente/insertClient.php",
@@ -102,7 +100,17 @@
       // Callback handler that will be called on success
       request.done(function (response, textStatus, jqXHR){
           // Log a message to the console
-          console.log("response: " + response);
+          var responseJSON = $.parseJSON(response);
+          
+          $("#include-alert-message").empty();
+          
+          if(responseJSON.success){
+            $("#include-alert-message").append( "<div class=\"alert alert-success alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" );            
+          }
+          else{
+            $("#include-alert-message").append( "<div class=\"alert alert-warning alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" );
+          }         
+
       });
 
       // Callback handler that will be called on failure
