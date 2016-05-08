@@ -19,7 +19,7 @@
 
   </head>
 
-  <body id="qw">
+  <body>
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
@@ -60,14 +60,10 @@
           </ul>
         </div>
         
-        <div id="includedContent" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        </div> 
-        
-        <div id="include-alert-message" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
-            <p>Perrro malo</p>
-            
-        </div>
-        
+        <div id="includedContent" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"></div>
+         
+        <div id="include-alert-message" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2"></div>
+     
       </div>
     </div>
 
@@ -82,6 +78,7 @@
     
 
     <script>
+      
       $( document ).ready(function() {
         $("#includedContent").load("view/inicio/inicio.html"); 
       });
@@ -92,7 +89,7 @@
       
       $( "#clientes" ).click(function() {
         $("#includedContent").load("view/cliente/forms.php"); 
-      });
+      });  
     </script>
   </body>
 </html>

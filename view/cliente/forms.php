@@ -1,11 +1,11 @@
 <ul class="nav nav-tabs">
-  <li class="active"><a data-toggle="tab" href="#home">Insert</a></li>
-  <li><a data-toggle="tab" href="#menu1">Update</a></li>
-  <li><a data-toggle="tab" href="#menu2">Delete</a></li>
+  <li class="active"><a data-toggle="tab" href="#insert">Insert</a></li>
+  <li><a data-toggle="tab" href="#update">Update</a></li>
+  <li><a data-toggle="tab" href="#delete">Delete</a></li>
 </ul>
 
 <div class="tab-content">
-  <div id="home" class="tab-pane fade in active">
+  <div id="insert" class="tab-pane fade in active">
     
     <div class="row">
       <h3>New Client</h3>
@@ -54,11 +54,11 @@
      </div>
     
   </div>
-  <div id="menu1" class="tab-pane fade">
+  <div id="update" class="tab-pane fade">
     <h3>Update Client</h3>
     <p>Some content in menu 1.</p>
   </div>
-  <div id="menu2" class="tab-pane fade">
+  <div id="delete" class="tab-pane fade">
     <h3>Delete Client</h3>
     <p>Some content in menu 2.</p>
   </div>
@@ -109,8 +109,8 @@
           }
           else{
             $("#include-alert-message").append( "<div class=\"alert alert-warning alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" );
-          }         
-
+          }
+          
       });
 
       // Callback handler that will be called on failure
@@ -129,5 +129,7 @@
           $inputs.prop("disabled", false);
       });
   }); 
-  
+    
  </script>
+ 
+ <script src="controllers/js/remove_alert.js"></script>
