@@ -1,21 +1,21 @@
 <?php
 
  	require('../conexion.php');
-	$cedula = $_POST["cedula"];
- 	$nombres = $_POST["nombres"];
- 	$apellidos= $_POST["apellidos"];
-	$telefono = $_POST["telefono"];
+	
+	$cedula = isset($_POST["cedula"]) ? $_POST["cedula"] : null;
+ 	$nombres = isset($_POST["nombres"]) ? $_POST["nombres"] : null;
+ 	$apellidos= isset($_POST["apellidos"]) ? $_POST["apellidos"] : null;
+	$telefono = isset($_POST["telefono"]) ? $_POST["telefono"] : null;
   
 	$query = "INSERT INTO cliente VALUES('$cedula','$nombres','$apellidos','$telefono')";
 	
-  
- 	$result = mysqli_query($conexion, $query) or die(mysqli_error($conexion));
-   
-   
-
+ 	$result = mysqli_query($conexion, $query); //or die(mysqli_error($conexion));
+	 
+	 
  	if($result){
- 		echo "el cliente ha sido creado";
+ 		echo json_encode(array('success' => true, 'message' => 'Client inserted successfully'));
  	}else{
- 		echo "Ha ocurrido un error al crear el cliente";
+		 $errorw = mysqli_error($conexion);
+ 		echo json_encode(array('success' => false, 'message' => $errorw));
  	}
 ?>

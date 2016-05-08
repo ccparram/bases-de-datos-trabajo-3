@@ -15,7 +15,7 @@
     
       <div class="col-md-6">
       
-        <form action="controllers/cliente/insertClient.php" method="post" accept-charset="UTF-8" class="form-horizontal" >
+        <form id="formInsertClient" method="POST" accept-charset="UTF-8" class="form-horizontal" >
           
           <div class="form-group">
             <label for="inputCedula" class="col-sm-2 control-label">Cédula</label>
@@ -63,3 +63,63 @@
     <p>Some content in menu 2.</p>
   </div>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="../../bower_components/jquery/dist/jquery.min.js"><\/script>')</script>
+
+<script> 
+ // Variable to hold request
+  var request;
+
+  // Bind to the submit event of our form
+  $("#formInsertClient").submit(function( event ){
+
+      event.preventDefault();
+  
+  // Abort any pending request
+      if (request) {
+          request.abort();
+      }
+      // setup some local variables
+      var $form = $(this);
+      
+      // Let's select and cache all the fields
+      var $inputs = $form.find("input");
+    
+      // Serialize the data in the form
+      var serializedData = $form.serialize();
+      
+      // Let's disable the inputs for the duration of the Ajax request.
+      $inputs.prop("disabled", true);
+      
+      // Fire off the request to /form.php
+      request = $.ajax({
+          url: "controllers/cliente/insertClient.php",
+          type: "post",
+          data: serializedData
+      });
+      
+      // Callback handler that will be called on success
+      request.done(function (response, textStatus, jqXHR){
+          // Log a message to the console
+          console.log("response: " + response);
+      });
+
+      // Callback handler that will be called on failure
+      request.fail(function (jqXHR, textStatus, errorThrown){
+          // Log the error to the console
+          console.error(
+              "The following error occurred: "+
+              textStatus, errorThrown
+          );
+      });
+
+      // Callback handler that will be called regardless
+      // if the request failed or succeeded
+      request.always(function () {
+          // Reenable the inputs
+          $inputs.prop("disabled", false);
+      });
+  }); 
+  
+ </script>
