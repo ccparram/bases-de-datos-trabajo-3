@@ -15,29 +15,33 @@
     
       <div class="col-md-6">
       
-        <form class="form-horizontal">
+        <form action="controllers/cliente/insertClient.php" method="post" accept-charset="UTF-8" class="form-horizontal" >
+          
           <div class="form-group">
             <label for="inputCedula" class="col-sm-2 control-label">Cédula</label>
             <div class="col-sm-10">
-              <input type="email" class="form-control" id="inputCedula" placeholder="Cédula">
+              <input type="text" class="form-control" id="inputCedula" name="cedula" placeholder="Cédula">
             </div>
           </div>
+          
           <div class="form-group">
             <label for="inputNombres" class="col-sm-2 control-label">Nombres</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputNombres" placeholder="Nombres">
+              <input type="text" class="form-control" id="inputNombres" name="nombres" placeholder="Nombres">
             </div>
           </div>
+          
           <div class="form-group">
             <label for="inputApellidos" class="col-sm-2 control-label">Apellidos</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputApellidos" placeholder="Apellidos">
+              <input type="text" class="form-control" id="inputApellidos" name="apellidos" placeholder="Apellidos">
             </div>
           </div>
+          
           <div class="form-group">
             <label for="inputTelefono" class="col-sm-2 control-label">Teléfono</label>
             <div class="col-sm-10">
-              <input type="tel" class="form-control" id="inputTelefono" placeholder="Teléfono">
+              <input type="tel" class="form-control" id="inputTelefono" name="telefono" placeholder="Teléfono">
             </div>
           </div>
           <div class="form-group">
