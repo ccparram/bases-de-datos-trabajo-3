@@ -193,7 +193,7 @@
     
  </script>
  
- <!-- /////  Update Client ///// -->
+ <!-- /////  Search Client ///// -->
  <script>
    
    // Variable to hold request
@@ -230,9 +230,11 @@
           $("#include-alert-message").empty();
           
           if(responseJSON.success){
+             populate('#formUpdateClient', responseJSON.client);
             $("#include-alert-message").append( "<div class=\"alert alert-success alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" ); 
           } 
           else{
+            $("#formUpdateClient")[0].reset();
             $("#include-alert-message").append( "<div class=\"alert alert-warning alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" );
           }
           
@@ -255,5 +257,6 @@
   }); 
  
  </script>
- 
+  
  <script src="controllers/js/remove_alert.js"></script>
+  <script src="controllers/js/populateForm.js"></script>
