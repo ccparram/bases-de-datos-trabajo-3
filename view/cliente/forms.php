@@ -62,7 +62,7 @@
 
     <div class="row">
       <div class="col-md-6">
-        <form id="formSearchClient" action="controllers/cliente/searchClient.php" method="GET">
+        <form id="formSearchUpdateClient" action="controllers/cliente/searchClient.php" method="GET">
           <div class="form-group  col-sm-6 col-md-offset-2">
             <input type="number" class="form-control" name="cedula" placeholder="Search Client by Cédula" required>
           </div>
@@ -193,67 +193,25 @@
     
  </script>
  
- <!-- /////  Search Client ///// -->
+ <!-- /////  Search Update Client ///// -->
  <script>
    
    // Variable to hold request
   var request;
 
   // Bind to the submit event of our form
-  $("#formSearchClient").submit(function( event ){
+  $("#formSearchUpdateClient").submit(function( event ){
 
       event.preventDefault();
-
-      if (request) {
-          request.abort();
-      }
       
       var $form = $(this);
 
       var $inputs = $form.find("input");
             
       var serializedData = $form.serialize();
-      
-      $inputs.prop("disabled", true);
-      
-      
-      request = $.ajax({
-          url: "controllers/cliente/searchClient.php",
-          type: "get",
-          data: serializedData
-      });
-        
-      request.done(function (response, textStatus, jqXHR){
-          
-          var responseJSON = $.parseJSON(response);
-          
-          $("#include-alert-message").empty();
-          
-          if(responseJSON.success){
-             populate('#formUpdateClient', responseJSON.client);
-            $("#include-alert-message").append( "<div class=\"alert alert-success alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" ); 
-          } 
-          else{
-            $("#formUpdateClient")[0].reset();
-            $("#include-alert-message").append( "<div class=\"alert alert-warning alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" );
-          }
-          
-      });
 
-      request.fail(function (jqXHR, textStatus, errorThrown){
-          console.error(
-              "The following error occurred: "+
-              textStatus, errorThrown
-          );
-      });
+      searchWithPK(serializedData, "#formUpdateClient", "controllers/cliente/searchClient.php");
 
-      // Callback handler that will be called regardless
-      // if the request failed or succeeded
-      request.always(function () {
-          // Reenable the inputs
-          $inputs.prop("disabled", false);
-      });
-      
   }); 
  
  </script>
@@ -326,5 +284,6 @@
  </script>
   
  
+ <script src="controllers/js/search.js"></script>
  <script src="controllers/js/remove_alert.js"></script>
-  <script src="controllers/js/populateForm.js"></script>
+ <script src="controllers/js/populateForm.js"></script>
