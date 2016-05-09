@@ -171,7 +171,7 @@
           </div>
           <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-              <button type="submit" class="btn btn-default">Update</button>
+              <button type="submit" class="btn btn-default">Delete</button>
             </div>
           </div>
         </form>
@@ -296,8 +296,6 @@
       $("#include-alert-message").append( "<div class=\"alert alert-warning alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ "Please enter a cedula" +"</div>" );
       return;
     }
-    
-    $form.find("input[name='cedula']").val();
 
     if (request) { request.abort(); }
 
@@ -367,6 +365,77 @@
   }); 
  
  </script>
+ 
+  <!-- /////  Delete Client ///// -->
+ <script>
+   
+   // Variable to hold request
+  var request;
+
+  // Bind to the submit event of our form
+  $("#formDeleteClient").submit(function( event ){
+  
+    event.preventDefault();
+    
+    var $form = $(this);
+    
+    if($form.find("input[name='cedula']").val() === ""){
+      $("#include-alert-message").empty();
+      $("#include-alert-message").append( "<div class=\"alert alert-warning alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ "Please enter a cedula" +"</div>" );
+      return;
+    }
+
+    if (request) { request.abort(); }
+
+    var $inputs = $form.find("input");
+          
+    var disabled = $form.find(':input:disabled').removeAttr('disabled');      
+    var serializedData = "cedula="+$form.find("input[name='cedula']").val();
+        
+    disabled.attr('disabled','disabled');
+    
+    $inputs.prop("disabled", true);
+    request = $.ajax({
+        url: "controllers/cliente/deleteClient.php",
+        type: "post",
+        data: serializedData
+    });
+      
+    request.done(function (response, textStatus, jqXHR){
+        
+console.log(response);
+        
+        var responseJSON = $.parseJSON(response);
+        
+                
+        
+        $("#include-alert-message").empty();
+        
+        if(responseJSON.success){
+          $("#include-alert-message").append( "<div class=\"alert alert-success alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" ); 
+        } 
+        else{
+          $("#include-alert-message").append( "<div class=\"alert alert-warning alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" );
+        }
+        
+    });
+
+    request.fail(function (jqXHR, textStatus, errorThrown){
+        console.error(
+            "The following error occurred: "+
+            textStatus, errorThrown
+        );
+    });
+
+    request.always(function () {
+        $inputs.prop("disabled", false);
+        disabled.attr('disabled','disabled');
+    });
+      
+  }); 
+ 
+ </script>
+ 
   
  
  <script src="controllers/js/search.js"></script>
