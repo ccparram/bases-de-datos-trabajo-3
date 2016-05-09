@@ -81,7 +81,7 @@
           <div class="form-group">
             <label for="inputCedula" class="col-sm-2 control-label">Cédula</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputCedula" name="cedula" placeholder="Cédula" disabled>
+              <input type="text" class="form-control" id="inputCedula" name="cedula" placeholder="Cédula" disabled required>
             </div>
           </div>
           
@@ -258,5 +258,73 @@
  
  </script>
   
+  <!-- /////  Update Client ///// -->
+ <script>
+   
+   // Variable to hold request
+  var request;
+
+  // Bind to the submit event of our form
+  $("#formUpdateClient").submit(function( event ){
+  
+    event.preventDefault();
+    
+    var $form = $(this);
+    
+    if($form.find("input[name='cedula']").val() === ""){
+      $("#include-alert-message").empty();
+      $("#include-alert-message").append( "<div class=\"alert alert-warning alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ "Please enter a cedula" +"</div>" );
+      return;
+    }
+    
+    $form.find("input[name='cedula']").val();
+
+    if (request) { request.abort(); }
+
+    var $inputs = $form.find("input");
+          
+    var disabled = $form.find(':input:disabled').removeAttr('disabled');      
+    var serializedData = $form.serialize();
+    disabled.attr('disabled','disabled');
+    
+    $inputs.prop("disabled", true);
+    request = $.ajax({
+        url: "controllers/cliente/updateClient.php",
+        type: "post",
+        data: serializedData
+    });
+      
+    request.done(function (response, textStatus, jqXHR){
+        
+        var responseJSON = $.parseJSON(response);
+        
+        $("#include-alert-message").empty();
+        
+        if(responseJSON.success){
+          $("#include-alert-message").append( "<div class=\"alert alert-success alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" ); 
+        } 
+        else{
+          $("#include-alert-message").append( "<div class=\"alert alert-warning alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" );
+        }
+        
+    });
+
+    request.fail(function (jqXHR, textStatus, errorThrown){
+        console.error(
+            "The following error occurred: "+
+            textStatus, errorThrown
+        );
+    });
+
+    request.always(function () {
+        $inputs.prop("disabled", false);
+        disabled.attr('disabled','disabled');
+    });
+      
+  }); 
+ 
+ </script>
+  
+ 
  <script src="controllers/js/remove_alert.js"></script>
   <script src="controllers/js/populateForm.js"></script>
