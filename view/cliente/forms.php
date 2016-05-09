@@ -116,11 +116,73 @@
     
   
   </div>
+
   
   <div id="delete" class="tab-pane fade">
-    <h3>Delete Client</h3>
+    
+    <div class="row">
+      <h3>Delete Client</h3>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <form id="formSearchDeleteClient" action="controllers/cliente/searchClient.php" method="GET">
+          <div class="form-group  col-sm-6 col-md-offset-2">
+            <input type="number" class="form-control" name="cedula" placeholder="Search Client by Cédula" required>
+          </div>
+          <div>
+            <button type="submit" class="btn btn-default">Buscar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+ 
+        <form id="formDeleteClient" method="POST" accept-charset="UTF-8" class="form-horizontal" >
+          
+          <div class="form-group">
+            <label for="inputCedula" class="col-sm-2 control-label">Cédula</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputCedula" name="cedula" placeholder="Cédula" disabled required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="inputNombres" class="col-sm-2 control-label">Nombres</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputNombres" name="nombres" placeholder="Nombres" required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="inputApellidos" class="col-sm-2 control-label">Apellidos</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputApellidos" name="apellidos" placeholder="Apellidos" required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="inputTelefono" class="col-sm-2 control-label">Teléfono</label>
+            <div class="col-sm-10">
+              <input type="tel" class="form-control" id="inputTelefono" name="telefono" placeholder="Teléfono" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit" class="btn btn-default">Update</button>
+            </div>
+          </div>
+        </form>
+      </div>
+     </div>
+    
+  
   </div>
   
+
+
 </div>
 
 
@@ -279,6 +341,29 @@
         disabled.attr('disabled','disabled');
     });
       
+  }); 
+ 
+ </script>
+ 
+ <!-- /////  Search Delete Client ///// -->
+ <script>
+   
+   // Variable to hold request
+  var request;
+
+  // Bind to the submit event of our form
+  $("#formSearchDeleteClient").submit(function( event ){
+
+      event.preventDefault();
+      
+      var $form = $(this);
+
+      var $inputs = $form.find("input");
+            
+      var serializedData = $form.serialize();
+
+      searchWithPK(serializedData, "#formDeleteClient", "controllers/cliente/searchClient.php");
+
   }); 
  
  </script>
