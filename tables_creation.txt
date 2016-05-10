@@ -8,4 +8,29 @@ CREATE TABLE cliente (
   cedula INT(10) PRIMARY KEY,
   nombres VARCHAR(20) NOT NULL,
   apellidos VARCHAR(20) NOT NULL,
-  telefono INT(10) NOT NULL);
+  telefono INT(10) NOT NULL );
+  
+-- Creation envio table
+
+CREATE TABLE envio (
+  codigo INT(8),
+  lugarOrigen VARCHAR(20) NOT NULL,
+  lugarDestino VARCHAR(20) NOT NULL,  
+  costo INT(10),
+  cedula_cliente INT(10) NOT NULL,
+  CONSTRAINT
+		FOREIGN KEY (cedula_cliente) REFERENCES cliente (cedula)
+		ON DELETE CASCADE,
+  PRIMARY KEY (codigo,cedula_cliente) );
+    
+-- Withou CONSTRAINT
+  
+CREATE TABLE envio (
+  codigo INT(8),
+  lugarOrigen VARCHAR(20) NOT NULL,
+  lugarDestino VARCHAR(20) NOT NULL,  
+  costo INT(10),
+  cedula_cliente INT(10) NOT NULL,
+		FOREIGN KEY (cedula_cliente) REFERENCES cliente (cedula)
+		ON DELETE CASCADE,
+  PRIMARY KEY (codigo,cedula_cliente) );
