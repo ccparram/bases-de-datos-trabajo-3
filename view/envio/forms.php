@@ -19,10 +19,11 @@
           <div class="form-group">
             <label for="inputCliente" class="col-sm-2 control-label">Cliente</label>
             <div class="col-sm-10">
-              <select class="selectpicker" data-live-search="true" required>
+              <select id="inputCliente" name="cliente" class="selectpicker" data-live-search="true" required>
                 <option>1</option>
                 <option>2</option>
-                <option>3</option>
+                <option>78</option>
+                <option>99</option>
               </select>
             </div>
           </div>
@@ -76,17 +77,73 @@
   
   </div>
   
-
-
 </div>
 
-<script>
-  $(document).ready(function () {
-    $('.selectpicker').selectpicker();
-  });
-</script>
 
 
+<!-- /////  Insert Client ///// -->
+<script> 
+ // Variable to hold request
+  var request;
+
+  // Bind to the submit event of our form
+  $("#formInsertShipping").submit(function( event ){
+
+      event.preventDefault();
+  
+      if (request) {
+          request.abort();
+      }
+      var $form = $(this);
+      
+      var $inputs = $form.find("input");
+
+      var serializedData = $form.serialize();
+
+      $inputs.prop("disabled", true);
+
+      request = $.ajax({
+          url: "controllers/envio/insertShipping.php",
+          type: "post",
+          data: serializedData
+      });
+
+      request.done(function (response, textStatus, jqXHR){
+        
+        console.log(response);
+        
+          var responseJSON = $.parseJSON(response);
+          
+          $("#include-alert-message").empty();
+          
+          if(responseJSON.success){
+            $("#include-alert-message").append( "<div class=\"alert alert-success alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" );   
+          }
+          else{
+            $("#include-alert-message").append( "<div class=\"alert alert-warning alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" );
+          }
+          
+      });
+
+      request.fail(function (jqXHR, textStatus, errorThrown){
+          console.error(
+              "The following error occurred: "+
+              textStatus, errorThrown
+          );
+      });
+      
+      request.always(function () {
+          $inputs.prop("disabled", false);
+      });
+  }); 
+    
+ </script>
+ 
+
+
+
+
+ <script src="controllers/js/select_picker.js"></script>
  <script src="controllers/js/search.js"></script>
  <script src="controllers/js/remove_alert.js"></script>
  <script src="controllers/js/populateForm.js"></script>
