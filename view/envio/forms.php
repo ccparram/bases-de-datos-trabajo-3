@@ -20,10 +20,6 @@
             <label for="inputCliente" class="col-sm-2 control-label">Cliente</label>
             <div class="col-sm-10">
               <select id="inputCliente" name="cliente" class="selectpicker" data-live-search="true" required>
-                <option>1</option>
-                <option>2</option>
-                <option>78</option>
-                <option>99</option>
               </select>
             </div>
           </div>
@@ -139,6 +135,7 @@
     
  </script>
  
+ <script src="controllers/js/populate_select.js"></script>
  
  <!-- /////  Search Client Cedula ///// -->
  <script>
@@ -173,12 +170,10 @@ getListClienteCedula();
           
           var responseJSON = $.parseJSON(response);
           
-          console.log("JSON: " + responseJSON.cedulas);
-          
           $("#include-alert-message").empty();
           
           if(responseJSON.success){
-             //populate(formToPopulate, responseJSON.client);
+             populate_select($("#inputCliente"), responseJSON.cedulas);
             $("#include-alert-message").append( "<div class=\"alert alert-success alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" ); 
           } 
           else{
@@ -199,10 +194,8 @@ getListClienteCedula();
  
  </script>
   
-
-
-
  <script src="controllers/js/select_picker.js"></script>
  <script src="controllers/js/search.js"></script>
  <script src="controllers/js/remove_alert.js"></script>
  <script src="controllers/js/populateForm.js"></script>
+ 
