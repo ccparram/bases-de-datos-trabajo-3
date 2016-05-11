@@ -269,9 +269,9 @@ getListClienteCedula();
             
       var serializedData = $form.serialize();
       
-      console.log(serializedData);
-
-      searchWithPK(serializedData, "#formUpdateClient", "controllers/envio/searchEnvio.php");
+      console.log("serialized: " + serializedData);
+      
+      searchWithPK(serializedData, "#formUpdateShipping", "controllers/envio/searchEnvio.php", "shipping");
 
   }); 
  

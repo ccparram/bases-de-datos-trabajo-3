@@ -272,7 +272,7 @@
             
       var serializedData = $form.serialize();
 
-      searchWithPK(serializedData, "#formUpdateClient", "controllers/cliente/searchClient.php");
+      searchWithPK(serializedData, "#formUpdateClient", "controllers/cliente/searchClient.php", "client");
 
   }); 
  
