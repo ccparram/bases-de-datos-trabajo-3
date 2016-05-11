@@ -403,11 +403,7 @@
       
     request.done(function (response, textStatus, jqXHR){
         
-console.log(response);
-        
-        var responseJSON = $.parseJSON(response);
-        
-                
+        var responseJSON = $.parseJSON(response);       
         
         $("#include-alert-message").empty();
         

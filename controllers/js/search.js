@@ -15,10 +15,10 @@ function searchWithPK(serializedData, formToPopulate, urlDB){
         
       request.done(function (response, textStatus, jqXHR){
           
+          console.log(response);
+          
           var responseJSON = $.parseJSON(response);
-          
-          console.log(responseJSON);
-          
+
           $("#include-alert-message").empty();
           
           if(responseJSON.success){
