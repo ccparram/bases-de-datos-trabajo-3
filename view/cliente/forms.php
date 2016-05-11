@@ -360,7 +360,7 @@
             
       var serializedData = $form.serialize();
 
-      searchWithPK(serializedData, "#formDeleteClient", "controllers/cliente/searchClient.php");
+      searchWithPK(serializedData, "#formDeleteClient", "controllers/cliente/searchClient.php", "client");
 
   }); 
  

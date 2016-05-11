@@ -125,13 +125,75 @@
   </div>
 
   
+  
   <div id="delete" class="tab-pane fade">
     
     <div class="row">
       <h3>Delete Shipping</h3>
     </div>
+
+    <div class="row">
+      <div class="col-md-7">
+        <form id="formSearchDeleteShipping" action="controllers/envio/searchEnvio.php" method="GET">
+          <div class="form-group  col-sm-6 col-md-offset-2">
+            <input type="number" class="form-control" name="codigo" placeholder="Código" required>
+          </div>
+          <div class="form-group  col-sm-6 col-md-offset-2">
+            <input type="number" class="form-control" name="cedula_cliente" placeholder="Cliente" required>
+          </div>
+          <div>
+            <button type="submit" class="btn btn-default">Seacrh</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+ 
+        <form id="formDeleteShipping" method="POST" accept-charset="UTF-8" class="form-horizontal" >
+          
+          <div class="form-group">
+            <label for="inputCodigo" class="col-sm-2 control-label">Código</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputCodigo" name="codigo" placeholder="Código" disabled required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="inputCedulaCliente" class="col-sm-2 control-label">Cliente</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputCedulaCliente" name="cedula_cliente" placeholder="Cliente" disabled required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="inputLugarOrigen" class="col-sm-2 control-label">Origen</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputLugarOrigen" name="lugarOrigen" placeholder="Lugar de origen" required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="inputLugarDestino" class="col-sm-2 control-label">Destino</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputLugarDestino" name="lugarDestino" placeholder="Lugar de destino" required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit" class="btn btn-default">Delete</button>
+            </div>
+          </div>
+        </form>
+      </div>
+     </div>
+    
   
   </div>
+
+  
   
 </div>
 
@@ -271,11 +333,36 @@ getListClienteCedula();
       
       console.log("serialized: " + serializedData);
       
-      searchWithPK(serializedData, "#formUpdateShipping", "controllers/envio/searchEnvio.php", "shipping");
+      searchWithPK(serializedData, "#formUpdateShipping", "controllers/envio/searchShipping.php", "shipping");
 
   }); 
  
  </script>
+ 
+  
+ <!-- /////  Search Delete Shipping ///// -->
+ <script>
+   
+   // Variable to hold request
+  var request;
+
+  // Bind to the submit event of our form
+  $("#formSearchDeleteShipping").submit(function( event ){
+
+      event.preventDefault();
+      
+      var $form = $(this);
+
+      var $inputs = $form.find("input");
+            
+      var serializedData = $form.serialize();
+
+      searchWithPK(serializedData, "#formDeleteShipping", "controllers/envio/searchShipping.php", "shipping");
+
+  }); 
+ 
+ </script>
+ 
   
 
  <script src="controllers/js/search.js"></script>
