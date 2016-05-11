@@ -1,5 +1,5 @@
 <ul class="nav nav-tabs">
-  <li class="active"><a data-toggle="tab" href="#insert">Insert</a></li>
+  <li id="tabInsertShipping" class="active"><a data-toggle="tab" href="#insert">Insert</a></li>
   <li><a data-toggle="tab" href="#update">Update</a></li>
   <li><a data-toggle="tab" href="#delete">Delete</a></li>
 </ul>
@@ -139,7 +139,66 @@
     
  </script>
  
+ 
+ <!-- /////  Search Client Cedula ///// -->
+ <script>
+   
+   $("#tabInsertShipping").click(function(){
+     getListClienteCedula();
+     
+   });
+   
+   $( document ).ready(function(){
+getListClienteCedula();
+   });
+   
+   // Variable to hold request
+  var request;
 
+  // Bind to the submit event of our form
+  function getListClienteCedula(){
+    
+    console.log("insertTab");
+
+      if (request) {
+          request.abort();
+      }
+      
+      request = $.ajax({
+          url: "controllers/cliente/selectAllClientCedula.php",
+          type: "get"
+      });
+        
+      request.done(function (response, textStatus, jqXHR){
+          
+          var responseJSON = $.parseJSON(response);
+          
+          console.log("JSON: " + responseJSON.cedulas);
+          
+          $("#include-alert-message").empty();
+          
+          if(responseJSON.success){
+             //populate(formToPopulate, responseJSON.client);
+            $("#include-alert-message").append( "<div class=\"alert alert-success alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" ); 
+          } 
+          else{
+            $(formToPopulate)[0].reset();
+            $("#include-alert-message").append( "<div class=\"alert alert-warning alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" );
+          }
+          
+      });
+
+      request.fail(function (jqXHR, textStatus, errorThrown){
+          console.error(
+              "The following error occurred: "+
+              textStatus, errorThrown
+          );
+      });  
+
+  }
+ 
+ </script>
+  
 
 
 
