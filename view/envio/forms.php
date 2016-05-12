@@ -314,7 +314,7 @@ getListClienteCedula();
  
  </script>
  
-  <!-- /////  Search Shippin by codigo-cedula_cliente///// -->
+  <!-- /////  Search Update Shippin by codigo-cedula_cliente///// -->
  <script>
    
    // Variable to hold request
@@ -331,13 +331,83 @@ getListClienteCedula();
             
       var serializedData = $form.serialize();
       
-      console.log("serialized: " + serializedData);
-      
       searchWithPK(serializedData, "#formUpdateShipping", "controllers/envio/searchShipping.php", "shipping");
 
   }); 
  
  </script>
+ 
+ 
+   
+  <!-- /////  Update Shipping ///// -->
+ <script>
+   
+   // Variable to hold request
+  var request;
+
+  // Bind to the submit event of our form
+  $("#formUpdateShipping").submit(function( event ){
+  
+  console.log("update");
+    event.preventDefault();
+    
+    var $form = $(this);
+    
+    if($form.find("input[name='codigo']").val() === ""){
+      $("#include-alert-message").empty();
+      $("#include-alert-message").append( "<div class=\"alert alert-warning alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ "Please enter a Código & Cliente" +"</div>" );
+      return;
+    }
+
+    if (request) { request.abort(); }
+
+    var $inputs = $form.find("input");
+          
+    var disabled = $form.find(':input:disabled').removeAttr('disabled');      
+    var serializedData = $form.serialize();
+    
+    disabled.attr('disabled','disabled');
+    
+    $inputs.prop("disabled", true);
+    request = $.ajax({
+        url: "controllers/envio/updateShipping.php",
+        type: "post",
+        data: serializedData
+    });
+      
+    request.done(function (response, textStatus, jqXHR){
+      
+      console.log(response);
+        
+        var responseJSON = $.parseJSON(response);
+        
+        $("#include-alert-message").empty();
+        
+        if(responseJSON.success){
+          $("#include-alert-message").append( "<div class=\"alert alert-success alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" ); 
+        } 
+        else{
+          $("#include-alert-message").append( "<div class=\"alert alert-warning alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" );
+        }
+        
+    });
+
+    request.fail(function (jqXHR, textStatus, errorThrown){
+        console.error(
+            "The following error occurred: "+
+            textStatus, errorThrown
+        );
+    });
+
+    request.always(function () {
+        $inputs.prop("disabled", false);
+        disabled.attr('disabled','disabled');
+    });
+      
+  }); 
+ 
+ </script>
+ 
  
   
  <!-- /////  Search Delete Shipping ///// -->

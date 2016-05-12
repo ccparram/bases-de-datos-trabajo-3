@@ -1,8 +1,5 @@
 function searchWithPK(serializedData, formToPopulate, urlDB, model){
   
-  console.log(formToPopulate + urlDB);
-  
-  
   if (request) {
           request.abort();
       }
