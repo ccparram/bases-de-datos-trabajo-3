@@ -10,20 +10,8 @@ CREATE TABLE cliente (
   apellidos VARCHAR(20) NOT NULL,
   telefono INT(10) NOT NULL );
   
+  
 -- Creation envio table
-
-CREATE TABLE envio (
-  codigo INT(8),
-  lugarOrigen VARCHAR(20) NOT NULL,
-  lugarDestino VARCHAR(20) NOT NULL,  
-  costo INT(10),
-  cedula_cliente INT(10) NOT NULL,
-  CONSTRAINT
-		FOREIGN KEY (cedula_cliente) REFERENCES cliente (cedula)
-		ON DELETE CASCADE,
-  PRIMARY KEY (codigo,cedula_cliente) );
-    
--- Withou CONSTRAINT
   
 CREATE TABLE envio (
   codigo INT(8),
@@ -31,6 +19,16 @@ CREATE TABLE envio (
   lugarDestino VARCHAR(20) NOT NULL,  
   costo INT(10),
   cedula_cliente INT(10) NOT NULL,
-		FOREIGN KEY (cedula_cliente) REFERENCES cliente (cedula)
-		ON DELETE CASCADE,
+	FOREIGN KEY (cedula_cliente) REFERENCES cliente (cedula) ON DELETE CASCADE,
   PRIMARY KEY (codigo,cedula_cliente) );
+  
+  
+  -- Creation paquete table
+
+CREATE TABLE paquete (
+  codigo INT(6) PRIMARY KEY,
+  descripcion VARCHAR(50),
+  codigo_envio INT(8) NOT NULL,
+  cedula_cliente INT(10) NOT NULL,
+  FOREIGN KEY (codigo_envio, cedula_cliente) REFERENCES envio (codigo, cedula_cliente) ON DELETE CASCADE );
+  
