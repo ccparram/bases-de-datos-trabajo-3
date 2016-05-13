@@ -52,7 +52,7 @@
           <ul class="nav nav-sidebar">
             <li id="clientes"><a href="#">Clientes</a></li>
             <li id="envios"><a href="#">Envíos</a></li>
-            <li><a href="#">Paquetes</a></li>
+            <li id="paquetes"><a href="#">Paquetes</a></li>
           </ul>
           <ul class="nav nav-sidebar">
             <li><a href="">Consultas</a></li>
@@ -100,6 +100,10 @@
       
       $( "#envios" ).click(function() {
         $("#includedContent").load("view/envio/forms.php"); 
+      });
+      
+      $( "#paquetes" ).click(function() {
+        $("#includedContent").load("view/paquete/forms.php");
       });  
     </script>
   </body>
