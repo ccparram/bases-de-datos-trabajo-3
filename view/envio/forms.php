@@ -228,8 +228,6 @@
 
       request.done(function (response, textStatus, jqXHR){
         
-        console.log(response);
-        
           var responseJSON = $.parseJSON(response);
           
           $("#include-alert-message").empty();
@@ -259,7 +257,7 @@
  
  <script src="controllers/js/populate_select.js"></script>
  
- <!-- /////  Search Client Cedula ///// -->
+ <!-- /////  Search for Update Shipping by Client Cedula ///// -->
  <script>
    
    $("#tabInsertShipping").click(function(){
@@ -314,7 +312,7 @@ getListClienteCedula();
  
  </script>
  
-  <!-- /////  Search Update Shippin by codigo-cedula_cliente///// -->
+  <!-- /////  Search Update Shippin by codigo & cedula_cliente ///// -->
  <script>
    
    // Variable to hold request
@@ -348,7 +346,6 @@ getListClienteCedula();
   // Bind to the submit event of our form
   $("#formUpdateShipping").submit(function( event ){
   
-  console.log("update");
     event.preventDefault();
     
     var $form = $(this);
@@ -429,6 +426,73 @@ getListClienteCedula();
 
       searchWithPK(serializedData, "#formDeleteShipping", "controllers/envio/searchShipping.php", "shipping");
 
+  }); 
+ 
+ </script>
+ 
+   <!-- /////  Delete Shipping ///// -->
+ <script>
+   
+   // Variable to hold request
+  var request;
+
+  // Bind to the submit event of our form
+  $("#formDeleteShipping").submit(function( event ){
+  
+    event.preventDefault();
+
+    var $form = $(this);
+    
+    if($form.find("input[name='codigo']").val() === ""){
+      $("#include-alert-message").empty();
+      $("#include-alert-message").append( "<div class=\"alert alert-warning alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ "Please enter a Código & Cliente" +"</div>" );
+      return;
+    }
+
+    if (request) { request.abort(); }
+
+    var $inputs = $form.find("input");
+          
+    var disabled = $form.find(':input:disabled').removeAttr('disabled');      
+    var serializedData = "codigo="+$form.find("input[name='codigo']").val() +
+                        "&cedula_cliente="+$form.find("input[name='cedula_cliente']").val() ;
+        
+    disabled.attr('disabled','disabled');
+    
+    $inputs.prop("disabled", true);
+    request = $.ajax({
+        url: "controllers/envio/deleteShipping.php",
+        type: "post",
+        data: serializedData
+    });
+      
+    request.done(function (response, textStatus, jqXHR){
+
+        var responseJSON = $.parseJSON(response);       
+        
+        $("#include-alert-message").empty();
+        
+        if(responseJSON.success){
+          $("#include-alert-message").append( "<div class=\"alert alert-success alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" ); 
+        } 
+        else{
+          $("#include-alert-message").append( "<div class=\"alert alert-warning alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" );
+        }
+        
+    });
+
+    request.fail(function (jqXHR, textStatus, errorThrown){
+        console.error(
+            "The following error occurred: "+
+            textStatus, errorThrown
+        );
+    });
+
+    request.always(function () {
+        $inputs.prop("disabled", false);
+        disabled.attr('disabled','disabled');
+    });
+      
   }); 
  
  </script>
