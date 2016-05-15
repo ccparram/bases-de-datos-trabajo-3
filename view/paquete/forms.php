@@ -1,5 +1,5 @@
 <ul class="nav nav-tabs">
-  <li id="tabInsertShipping" class="active"><a data-toggle="tab" href="#insert">Insert</a></li>
+  <li id="tabInsertPackage" class="active"><a data-toggle="tab" href="#insert">Insert</a></li>
   <li><a data-toggle="tab" href="#update">Update</a></li>
   <li><a data-toggle="tab" href="#delete">Delete</a></li>
 </ul>
@@ -22,9 +22,11 @@
               <select id="inputEnvio" name="codigo_envio" class="selectpicker" data-live-search="true" required>
               </select>
             </div>
-            <label for="inputCliente" class="col-sm-2 control-label">Cliente</label>
+            </div>
+            <div class="form-group">
+            <label for="inputSelectCliente" class="col-sm-2 control-label">Cliente</label>
             <div class="col-sm-10">
-              <select id="inputCliente" name="cedula_cliente" class="selectpicker" data-live-search="true" required>
+              <select id="inputSelectCliente" name="cedula_cliente"  data-live-search="true" required>
               </select>
             </div>
           </div>
@@ -72,89 +74,27 @@
 </div>
 
 
-
-<!-- /////  Insert Shippin ///// -->
-<script> 
- // Variable to hold request
-  var request;
-
-  // Bind to the submit event of our form
-  $("#formInsertShipping").submit(function( event ){
-
-      event.preventDefault();
-  
-      if (request) {
-          request.abort();
-      }
-      var $form = $(this);
-      
-      var $inputs = $form.find("input");
-
-      var serializedData = $form.serialize();
-
-      $inputs.prop("disabled", true);
-
-      request = $.ajax({
-          url: "controllers/envio/insertShipping.php",
-          type: "post",
-          data: serializedData
-      });
-
-      request.done(function (response, textStatus, jqXHR){
-        
-          var responseJSON = $.parseJSON(response);
-          
-          $("#include-alert-message").empty();
-          
-          if(responseJSON.success){
-            $("#include-alert-message").append( "<div class=\"alert alert-success alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" );   
-          }
-          else{
-            $("#include-alert-message").append( "<div class=\"alert alert-warning alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" );
-          }
-          
-      });
-
-      request.fail(function (jqXHR, textStatus, errorThrown){
-          console.error(
-              "The following error occurred: "+
-              textStatus, errorThrown
-          );
-      });
-      
-      request.always(function () {
-          $inputs.prop("disabled", false);
-      });
-  }); 
-    
- </script>
- 
  <script src="controllers/js/populate_select.js"></script>
- 
- <!-- /////  Search for Update Shipping by Client Cedula ///// -->
+
+<!-- /////  Search for Insert Shipping by Client Cedula ///// -->
  <script>
-   
-   $("#tabInsertShipping").click(function(){
-     getListClienteCedula();
-     
-   });
+
+   $("#tabInsertPackage").click(function(){
+     getListEnvioCodigo();  });
    
    $( document ).ready(function(){
-getListClienteCedula();
-   });
+      getListEnvioCodigo();  });
    
    // Variable to hold request
   var request;
 
-  // Bind to the submit event of our form
-  function getListClienteCedula(){
-
+  function getListEnvioCodigo(){
       if (request) {
           request.abort();
       }
       
       request = $.ajax({
-          url: "controllers/cliente/selectAllClientCedula.php",
+          url: "controllers/envio/selectAllShippingCodigo.php",
           type: "get"
       });
         
@@ -165,7 +105,7 @@ getListClienteCedula();
           $("#include-alert-message").empty();
           
           if(responseJSON.success){
-             populate_select($("#inputCliente"), responseJSON.cedulas);
+             populate_select($("#inputEnvio"), responseJSON.codigos);
             $("#include-alert-message").append( "<div class=\"alert alert-success alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" ); 
           } 
           else{
@@ -183,191 +123,50 @@ getListClienteCedula();
       });  
 
   }
- 
- </script>
- 
-  <!-- /////  Search Update Shippin by codigo & cedula_cliente ///// -->
- <script>
-   
-   // Variable to hold request
-  var request;
-
-  // Bind to the submit event of our form
-  $("#formSearchUpdateShipping").submit(function( event ){
-
-      event.preventDefault();
-      
-      var $form = $(this);
-
-      var $inputs = $form.find("input");
-            
-      var serializedData = $form.serialize();
-      
-      searchWithPK(serializedData, "#formUpdateShipping", "controllers/envio/searchShipping.php", "shipping");
-
-  }); 
- 
- </script>
- 
- 
-   
-  <!-- /////  Update Shipping ///// -->
- <script>
-   
-   // Variable to hold request
-  var request;
-
-  // Bind to the submit event of our form
-  $("#formUpdateShipping").submit(function( event ){
   
-    event.preventDefault();
-    
-    var $form = $(this);
-    
-    if($form.find("input[name='codigo']").val() === ""){
-      $("#include-alert-message").empty();
-      $("#include-alert-message").append( "<div class=\"alert alert-warning alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ "Please enter a Código & Cliente" +"</div>" );
-      return;
-    }
-
-    if (request) { request.abort(); }
-
-    var $inputs = $form.find("input");
+   $( "#inputEnvio" ).change(function() {
+       getListClienteCedulaByEnvioCodigo($( "#inputEnvio" ).val());
+   });
+  
+  function getListClienteCedulaByEnvioCodigo(codigo){
+      if (request) {
+          request.abort();
+      }
+      
+      var serializedData = "codigo=" + codigo;
+      request = $.ajax({
+          url: "controllers/envio/selectAllClientCedulaByShippingCodigo.php",
+          type: "get",
+          data: serializedData
+      });
+      
+      
+        
+      request.done(function (response, textStatus, jqXHR){
           
-    var disabled = $form.find(':input:disabled').removeAttr('disabled');      
-    var serializedData = $form.serialize();
-    
-    disabled.attr('disabled','disabled');
-    
-    $inputs.prop("disabled", true);
-    request = $.ajax({
-        url: "controllers/envio/updateShipping.php",
-        type: "post",
-        data: serializedData
-    });
-      
-    request.done(function (response, textStatus, jqXHR){
-      
-      console.log(response);
-        
-        var responseJSON = $.parseJSON(response);
-        
-        $("#include-alert-message").empty();
-        
-        if(responseJSON.success){
-          $("#include-alert-message").append( "<div class=\"alert alert-success alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" ); 
-        } 
-        else{
-          $("#include-alert-message").append( "<div class=\"alert alert-warning alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" );
-        }
-        
-    });
-
-    request.fail(function (jqXHR, textStatus, errorThrown){
-        console.error(
-            "The following error occurred: "+
-            textStatus, errorThrown
-        );
-    });
-
-    request.always(function () {
-        $inputs.prop("disabled", false);
-        disabled.attr('disabled','disabled');
-    });
-      
-  }); 
- 
- </script>
- 
- 
-  
- <!-- /////  Search Delete Shipping ///// -->
- <script>
-   
-   // Variable to hold request
-  var request;
-
-  // Bind to the submit event of our form
-  $("#formSearchDeleteShipping").submit(function( event ){
-
-      event.preventDefault();
-      
-      var $form = $(this);
-
-      var $inputs = $form.find("input");
-            
-      var serializedData = $form.serialize();
-
-      searchWithPK(serializedData, "#formDeleteShipping", "controllers/envio/searchShipping.php", "shipping");
-
-  }); 
- 
- </script>
- 
-   <!-- /////  Delete Shipping ///// -->
- <script>
-   
-   // Variable to hold request
-  var request;
-
-  // Bind to the submit event of our form
-  $("#formDeleteShipping").submit(function( event ){
-  
-    event.preventDefault();
-
-    var $form = $(this);
-    
-    if($form.find("input[name='codigo']").val() === ""){
-      $("#include-alert-message").empty();
-      $("#include-alert-message").append( "<div class=\"alert alert-warning alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ "Please enter a Código & Cliente" +"</div>" );
-      return;
-    }
-
-    if (request) { request.abort(); }
-
-    var $inputs = $form.find("input");
+          var responseJSON = $.parseJSON(response);
           
-    var disabled = $form.find(':input:disabled').removeAttr('disabled');      
-    var serializedData = "codigo="+$form.find("input[name='codigo']").val() +
-                        "&cedula_cliente="+$form.find("input[name='cedula_cliente']").val() ;
-        
-    disabled.attr('disabled','disabled');
-    
-    $inputs.prop("disabled", true);
-    request = $.ajax({
-        url: "controllers/envio/deleteShipping.php",
-        type: "post",
-        data: serializedData
-    });
-      
-    request.done(function (response, textStatus, jqXHR){
+          $("#include-alert-message").empty();
 
-        var responseJSON = $.parseJSON(response);       
-        
-        $("#include-alert-message").empty();
-        
-        if(responseJSON.success){
-          $("#include-alert-message").append( "<div class=\"alert alert-success alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" ); 
-        } 
-        else{
-          $("#include-alert-message").append( "<div class=\"alert alert-warning alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" );
-        }
-        
-    });
+          if(responseJSON.success){
+             populate_select($("#inputSelectCliente"), responseJSON.cedulas_cliente);
+            $("#include-alert-message").append( "<div class=\"alert alert-success alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" ); 
+          } 
+          else{
+            $(formToPopulate)[0].reset();
+            $("#include-alert-message").append( "<div class=\"alert alert-warning alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" );
+          }
+          
+      });
 
-    request.fail(function (jqXHR, textStatus, errorThrown){
-        console.error(
-            "The following error occurred: "+
-            textStatus, errorThrown
-        );
-    });
+      request.fail(function (jqXHR, textStatus, errorThrown){
+          console.error(
+              "The following error occurred: "+
+              textStatus, errorThrown
+          );
+      });  
 
-    request.always(function () {
-        $inputs.prop("disabled", false);
-        disabled.attr('disabled','disabled');
-    });
-      
-  }); 
+  }
  
  </script>
  

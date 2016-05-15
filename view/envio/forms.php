@@ -257,7 +257,7 @@
  
  <script src="controllers/js/populate_select.js"></script>
  
- <!-- /////  Search for Update Shipping by Client Cedula ///// -->
+ <!-- /////  Search for Insert Shipping by Client Cedula ///// -->
  <script>
    
    $("#tabInsertShipping").click(function(){
