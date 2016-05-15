@@ -14,7 +14,7 @@
     
     <div class="row">
       <div class="col-md-7">
-        <form id="formInsertShipping" method="POST" accept-charset="UTF-8" class="form-horizontal" >
+        <form id="formInsertPackage" method="POST" accept-charset="UTF-8" class="form-horizontal" >
           
           <div class="form-group">
             <label for="inputEnvio" class="col-sm-2 control-label">Envío</label>
@@ -34,7 +34,7 @@
           <div class="form-group">
             <label for="inputCodigo" class="col-sm-2 control-label">Código</label>
             <div class="col-sm-10">
-              <input type="number" class="form-control" id="inputCodigo" name="codigo" placeholder="Código">
+              <input type="number" class="form-control" id="inputCodigo" name="codigo" placeholder="Código" required>
             </div>
           </div>
           
@@ -42,6 +42,12 @@
             <label for="inputDescripcion" class="col-sm-2 control-label">Descripción</label>
             <div class="col-sm-10">
               <input type="text" class="form-control" id="inputDescripcion" name="descripcion" placeholder="Descripción">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit" class="btn btn-default">Insert</button>
             </div>
           </div>
           
@@ -170,6 +176,66 @@
  
  </script>
  
+ 
+ <!-- /////  Insert Package ///// -->
+<script> 
+ // Variable to hold request
+  var request;
+
+  // Bind to the submit event of our form
+  $("#formInsertPackage").submit(function( event ){
+
+
+
+      event.preventDefault();
+  
+      if (request) {
+          request.abort();
+      }
+      var $form = $(this);
+      
+      var $inputs = $form.find("input");
+
+      var serializedData = $form.serialize();
+      
+      console.log(serializedData);
+
+      $inputs.prop("disabled", true);
+
+      request = $.ajax({
+          url: "controllers/paquete/insertPackage.php",
+          type: "post",
+          data: serializedData
+      });
+
+      request.done(function (response, textStatus, jqXHR){
+        
+          var responseJSON = $.parseJSON(response);
+          
+          $("#include-alert-message").empty();
+          
+          if(responseJSON.success){
+            $("#include-alert-message").append( "<div class=\"alert alert-success alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" );   
+          }
+          else{
+            $("#include-alert-message").append( "<div class=\"alert alert-warning alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" );
+          }
+          
+      });
+
+      request.fail(function (jqXHR, textStatus, errorThrown){
+          console.error(
+              "The following error occurred: "+
+              textStatus, errorThrown
+          );
+      });
+      
+      request.always(function () {
+          $inputs.prop("disabled", false);
+      });
+  }); 
+    
+ </script>
   
 
  <script src="controllers/js/search.js"></script>
