@@ -126,14 +126,72 @@
   
 
   
-  
   <div id="delete" class="tab-pane fade">
     
     <div class="row">
-      <h3>Delete Shipping</h3>
+      <h3>Delete Package</h3>
     </div>
 
+    <div class="row">
+      <div class="col-md-6">
+        <form id="formSearchDeletePackage" method="GET">
+          <div class="form-group  col-sm-6 col-md-offset-2">
+            <input type="number" class="form-control" name="codigo" placeholder="Search Package by código" required>
+          </div>
+          <div>
+            <button type="submit" class="btn btn-default">Buscar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+ 
+        <form id="formDeletePackage" method="POST" accept-charset="UTF-8" class="form-horizontal" >
+          
+          <div class="form-group">
+            <label for="inputCodigo" class="col-sm-2 control-label">Código</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputCodigo" name="codigo" placeholder="Código" disabled required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="inputEnvio" class="col-sm-2 control-label">Envío</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputEnvio" name="codigo_envio" placeholder="Envío" required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="inputCedulaCliente" class="col-sm-2 control-label">Cliente</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputCedulaCliente" name="cedula_cliente" placeholder="Cliente" required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="inputDescripcion" class="col-sm-2 control-label">Descripción</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputDescripcion" name="descripcion" placeholder="Descripción">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit" class="btn btn-default">Delete</button>
+            </div>
+          </div>
+          
+          
+        </form>
+      </div>
+     </div>
+    
+  
   </div>
+  
 
   
 </div>
@@ -388,6 +446,99 @@
   }); 
  
  </script>
+
+ 
+ <!-- /////  Search Delete Package ///// -->
+ <script>
+   
+   // Variable to hold request
+  var request;
+
+  // Bind to the submit event of our form
+  $("#formSearchDeletePackage").submit(function( event ){
+
+      event.preventDefault();
+      
+      var $form = $(this);
+
+      var $inputs = $form.find("input");
+            
+      var serializedData = $form.serialize();
+
+      searchWithPK(serializedData, "#formDeletePackage", "controllers/paquete/searchPackage.php", "package");
+
+  }); 
+ 
+ </script>
+ 
+ 
+  <!-- /////  Delete Package ///// -->
+ <script>
+   
+   // Variable to hold request
+  var request;
+
+  // Bind to the submit event of our form
+  $("#formDeletePackage").submit(function( event ){
+  
+    event.preventDefault();
+    
+    var $form = $(this);
+    
+    if($form.find("input[name='codigo']").val() === ""){
+      $("#include-alert-message").empty();
+      $("#include-alert-message").append( "<div class=\"alert alert-warning alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ "Please enter código" +"</div>" );
+      return;
+    }
+
+    if (request) { request.abort(); }
+
+    var $inputs = $form.find("input");
+          
+    var disabled = $form.find(':input:disabled').removeAttr('disabled');      
+    var serializedData = "codigo="+$form.find("input[name='codigo']").val();
+        
+    disabled.attr('disabled','disabled');
+    
+    $inputs.prop("disabled", true);
+    request = $.ajax({
+        url: "controllers/paquete/deletePackage.php",
+        type: "post",
+        data: serializedData
+    });
+      
+    request.done(function (response, textStatus, jqXHR){
+        
+        var responseJSON = $.parseJSON(response);       
+        
+        $("#include-alert-message").empty();
+        
+        if(responseJSON.success){
+          $("#include-alert-message").append( "<div class=\"alert alert-success alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" ); 
+        } 
+        else{
+          $("#include-alert-message").append( "<div class=\"alert alert-warning alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" );
+        }
+        
+    });
+
+    request.fail(function (jqXHR, textStatus, errorThrown){
+        console.error(
+            "The following error occurred: "+
+            textStatus, errorThrown
+        );
+    });
+
+    request.always(function () {
+        $inputs.prop("disabled", false);
+        disabled.attr('disabled','disabled');
+    });
+      
+  }); 
+ 
+ </script>
+ 
+  
 
  <script src="controllers/js/search.js"></script>
  <script src="controllers/js/remove_alert.js"></script>
