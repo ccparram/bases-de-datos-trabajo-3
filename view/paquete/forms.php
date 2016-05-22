@@ -62,12 +62,12 @@
   <div id="update" class="tab-pane fade">
     
     <div class="row">
-      <h3>Update Shipping</h3>
+      <h3>Update Package</h3>
     </div>
 
     <div class="row">
       <div class="col-md-6">
-        <form id="formSearchUpdateClient" action="controllers/cliente/searchClient.php" method="GET">
+        <form id="formSearchUpdatePackage" action="controllers/paquete/searchPackage.php" method="GET">
           <div class="form-group  col-sm-6 col-md-offset-2">
             <input type="number" class="form-control" name="codigo" placeholder="Search Package by Código" required>
           </div>
@@ -81,7 +81,7 @@
     <div class="row">
       <div class="col-md-6">
  
-        <form id="formUpdateShipping" method="POST" accept-charset="UTF-8" class="form-horizontal" >
+        <form id="formUpdatePackage" method="POST" accept-charset="UTF-8" class="form-horizontal" >
           
           <div class="form-group">
             <label for="inputCodigo" class="col-sm-2 control-label">Código</label>
@@ -107,7 +107,7 @@
           <div class="form-group">
             <label for="inputDescripcion" class="col-sm-2 control-label">Descripción</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputDescripcion" name="lugarOrigen" placeholder="Descripción" required>
+              <input type="text" class="form-control" id="inputDescripcion" name="descripcion" placeholder="Descripción" required>
             </div>
           </div>
           
@@ -296,6 +296,29 @@
     
  </script>
   
+
+ <!-- /////  Search Update Package ///// -->
+ <script>
+   
+   // Variable to hold request
+  var request;
+
+  // Bind to the submit event of our form
+  $("#formSearchUpdatePackage").submit(function( event ){
+
+      event.preventDefault();
+      
+      var $form = $(this);
+
+      var $inputs = $form.find("input");
+            
+      var serializedData = $form.serialize();
+
+      searchWithPK(serializedData, "#formUpdatePackage", "controllers/paquete/searchPackage.php", "package");
+
+  }); 
+ 
+ </script>
 
  <script src="controllers/js/search.js"></script>
  <script src="controllers/js/remove_alert.js"></script>

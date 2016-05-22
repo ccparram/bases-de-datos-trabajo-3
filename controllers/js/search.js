@@ -13,11 +13,10 @@ function searchWithPK(serializedData, formToPopulate, urlDB, model){
       request.done(function (response, textStatus, jqXHR){
           
           var responseJSON = $.parseJSON(response);
-
+          
           $("#include-alert-message").empty();
           
           if(responseJSON.success){
-              console.log("model: " + responseJSON[model]);
              populate(formToPopulate, responseJSON[model]);
             $("#include-alert-message").append( "<div class=\"alert alert-success alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" ); 
           } 
