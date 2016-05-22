@@ -58,13 +58,72 @@
   </div>
   
   
+  
   <div id="update" class="tab-pane fade">
     
     <div class="row">
       <h3>Update Shipping</h3>
     </div>
 
+    <div class="row">
+      <div class="col-md-6">
+        <form id="formSearchUpdateClient" action="controllers/cliente/searchClient.php" method="GET">
+          <div class="form-group  col-sm-6 col-md-offset-2">
+            <input type="number" class="form-control" name="codigo" placeholder="Search Package by Código" required>
+          </div>
+          <div>
+            <button type="submit" class="btn btn-default">Buscar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+ 
+        <form id="formUpdateShipping" method="POST" accept-charset="UTF-8" class="form-horizontal" >
+          
+          <div class="form-group">
+            <label for="inputCodigo" class="col-sm-2 control-label">Código</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputCodigo" name="codigo" placeholder="Código" disabled required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="inputEnvio" class="col-sm-2 control-label">Envío</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputEnvio" name="codigo_envio" placeholder="Envío" required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="inputCedulaCliente" class="col-sm-2 control-label">Cliente</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputCedulaCliente" name="cedula_cliente" placeholder="Cliente" required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="inputDescripcion" class="col-sm-2 control-label">Descripción</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputDescripcion" name="lugarOrigen" placeholder="Descripción" required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit" class="btn btn-default">Update</button>
+            </div>
+          </div>
+        </form>
+      </div>
+     </div>
+    
+  
   </div>
+
+  
 
   
   
