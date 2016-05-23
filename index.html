@@ -55,7 +55,7 @@
             <li id="paquetes"><a href="#">Paquetes</a></li>
           </ul>
           <ul class="nav nav-sidebar">
-            <li><a href="">Consultas</a></li>
+            <li id="consultas"><a href="#">Consultas</a></li>
             <li><a href="">Búsquedas</a></li>
           </ul>
         </div>
@@ -104,7 +104,12 @@
       
       $( "#paquetes" ).click(function() {
         $("#includedContent").load("view/paquete/forms.php");
-      });  
+      }); 
+      
+      $( "#consultas" ).click(function() {
+        console.log("click");
+        $("#includedContent").load("view/consulta/forms.php");
+      });   
     </script>
   </body>
 </html>
