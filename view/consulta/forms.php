@@ -26,6 +26,8 @@
 
 <script src="controllers/js/populate_table.js"></script>
 
+<!-- Consulta 1 -->
+
 <script>
 
 $( "#consulta1" ).click(function() {
@@ -53,6 +55,55 @@ $( "#consulta1" ).click(function() {
           $("#include-alert-message").append( "<div class=\"alert alert-success alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" ); 
           var columnNames = ["Codigo", "Lugar de Origen", "Lugar de Destino", "Costo", "Cliente"]; 
           populate_table("#tableConsulta", responseJSON.shippings, columnNames);
+      } 
+        else{
+          $("#include-alert-message").append( "<div class=\"alert alert-warning alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" );
+        }
+        
+    });
+
+    request.fail(function (jqXHR, textStatus, errorThrown){
+        console.error(
+            "The following error occurred: "+
+            textStatus, errorThrown
+        );
+    });
+
+    request.always(function () {
+    });
+      
+  }); 
+ 
+ </script>
+ 
+ 
+ <!-- Consulta 2 -->
+
+<script>
+
+$( "#consulta2" ).click(function() {
+  
+  $("#titleConsulta").empty().append('<h2>Clientes que tienen entre 2 y 4 Envíos</h2>');
+  
+  var request;
+
+    if (request) { request.abort(); }
+
+    request = $.ajax({
+        url: "controllers/consulta/consulta2.php",
+        type: "get"
+    });
+      
+    request.done(function (response, textStatus, jqXHR){
+
+        var responseJSON = $.parseJSON(response);
+        
+        $("#include-alert-message").empty();
+        
+        if(responseJSON.success){
+          $("#include-alert-message").append( "<div class=\"alert alert-success alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" ); 
+          var columnNames = ["Cédula", "Nombres", "Apellidos", "Teléfono"]; 
+          populate_table("#tableConsulta", responseJSON.clients, columnNames);
       } 
         else{
           $("#include-alert-message").append( "<div class=\"alert alert-warning alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" );
