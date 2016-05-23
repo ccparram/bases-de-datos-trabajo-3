@@ -125,3 +125,52 @@ $( "#consulta2" ).click(function() {
  
  </script>
  
+ 
+  <!-- Consulta 3 -->
+
+<script>
+
+$( "#consulta3" ).click(function() {
+  
+  $("#titleConsulta").empty().append('<h2>Clientes con al menos 2 Envíos y cada uno de esos Envíos tiene al menos un paquete</h2>');
+  
+  var request;
+
+    if (request) { request.abort(); }
+
+    request = $.ajax({
+        url: "controllers/consulta/consulta3.php",
+        type: "get"
+    });
+      
+    request.done(function (response, textStatus, jqXHR){
+
+        var responseJSON = $.parseJSON(response);
+        
+        $("#include-alert-message").empty();
+        
+        if(responseJSON.success){
+          $("#include-alert-message").append( "<div class=\"alert alert-success alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" ); 
+          var columnNames = ["Cédula", "Nombres", "Apellidos", "Teléfono"]; 
+          populate_table("#tableConsulta", responseJSON.clients, columnNames);
+      } 
+        else{
+          $("#include-alert-message").append( "<div class=\"alert alert-warning alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" );
+        }
+        
+    });
+
+    request.fail(function (jqXHR, textStatus, errorThrown){
+        console.error(
+            "The following error occurred: "+
+            textStatus, errorThrown
+        );
+    });
+
+    request.always(function () {
+    });
+      
+  }); 
+ 
+ </script>
+ 
