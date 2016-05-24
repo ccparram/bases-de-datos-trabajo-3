@@ -44,7 +44,7 @@
       <div class="col-md-6">
         <form id="formSearchBusqueda2" method="GET">
           <div class="form-group  col-sm-6 col-md-offset-2">
-            <input type="number" class="form-control" name="codigo" placeholder="Search by Código" required>
+            <input type="number" class="form-control" name="codigo" placeholder="Search by Código Paquete" required>
           </div>
           <div>
             <button type="submit" class="btn btn-default">Buscar</button>
@@ -70,14 +70,12 @@
 
  <!-- /////  Search Busqueda 1 ///// -->
  <script>
-   
-   // Variable to hold request
+
   var request;
 
-  // Bind to the submit event of our form
   $("#formSearchBusqueda1").submit(function( event ){
     
-event.preventDefault();
+    event.preventDefault();
 
     $("#tableBusqueda1").empty();
     
@@ -94,7 +92,7 @@ event.preventDefault();
         data: serializedData
     });
       
-    request.done(function (response, textStatus, jqXHR){;
+    request.done(function (response, textStatus, jqXHR){
         
         var responseJSON = $.parseJSON(response);;
         
@@ -102,6 +100,58 @@ event.preventDefault();
         
         if(responseJSON.success){
           populate_table_busqueda1("#tableBusqueda1",responseJSON.envios, ["Código envío", "Código Paquete"]);
+          $("#include-alert-message").append( "<div class=\"alert alert-success alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" ); 
+        } 
+        else{
+          $("#include-alert-message").append( "<div class=\"alert alert-warning alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" );
+        }
+        
+    });
+
+    request.fail(function (jqXHR, textStatus, errorThrown){
+        console.error(
+            "The following error occurred: "+
+            textStatus, errorThrown
+        );
+    });      
+  }); 
+ 
+ </script>
+ 
+ 
+  <!-- /////  Search Busqueda 2 ///// -->
+ <script>
+
+  var request;
+
+  $("#formSearchBusqueda2").submit(function( event ){
+    
+    event.preventDefault();
+
+    $("#tableBusqueda2").empty();
+    
+    var $form = $(this);
+    
+    if (request) { request.abort(); }
+
+    var $inputs = $form.find("input");
+    var serializedData = $form.serialize();
+
+    request = $.ajax({
+        url: "controllers/busqueda/busqueda2.php",
+        type: "get",
+        data: serializedData
+    });
+      
+    request.done(function (response, textStatus, jqXHR){
+        
+        var responseJSON = $.parseJSON(response);
+        
+        $("#include-alert-message").empty();
+        
+        if(responseJSON.success){
+          populate_table_busqueda1("#tableBusqueda2",responseJSON.paquete, ["Código Paquete", "Código Envío",
+                                                          "Lugar Origen", "Lugar Destino", "Costo", "Cédula Cliente", "Nombres", "Apellidos", "Teléfono"]);
           $("#include-alert-message").append( "<div class=\"alert alert-success alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" ); 
         } 
         else{
