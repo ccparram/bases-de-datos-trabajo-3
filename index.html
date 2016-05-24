@@ -56,7 +56,7 @@
           </ul>
           <ul class="nav nav-sidebar">
             <li id="consultas"><a href="#">Consultas</a></li>
-            <li><a href="">Búsquedas</a></li>
+            <li id="busquedas"><a href="#">Búsquedas</a></li>
           </ul>
         </div>
         
@@ -107,9 +107,12 @@
       }); 
       
       $( "#consultas" ).click(function() {
-        console.log("click");
         $("#includedContent").load("view/consulta/forms.php");
-      });   
+      });
+      
+      $( "#busquedas" ).click(function() {
+        $("#includedContent").load("view/busqueda/forms.php");
+      });     
     </script>
   </body>
 </html>
