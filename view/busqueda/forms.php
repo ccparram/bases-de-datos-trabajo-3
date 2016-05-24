@@ -151,7 +151,7 @@
         
         if(responseJSON.success){
           populate_table_busqueda1("#tableBusqueda2",responseJSON.paquete, ["Código Paquete", "Código Envío",
-                                                          "Lugar Origen", "Lugar Destino", "Costo", "Cédula Cliente", "Nombres", "Apellidos", "Teléfono"]);
+                                                          "Lugar Origen", "Lugar Destino", "Cédula Cliente", "Nombres", "Apellidos", "Teléfono"]);
           $("#include-alert-message").append( "<div class=\"alert alert-success alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" ); 
         } 
         else{

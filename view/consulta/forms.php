@@ -53,7 +53,7 @@ $( "#consulta1" ).click(function() {
         
         if(responseJSON.success){
           $("#include-alert-message").append( "<div class=\"alert alert-success alert-dismissible col-sm-6\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+ responseJSON.message +"</div>" ); 
-          var columnNames = ["Codigo", "Lugar de Origen", "Lugar de Destino", "Costo", "Cliente"]; 
+          var columnNames = ["Codigo", "Lugar de Origen", "Lugar de Destino", "Cliente"]; 
           populate_table("#tableConsulta", responseJSON.shippings, columnNames);
       } 
         else{

@@ -4,7 +4,7 @@
 	
 	$codigo = isset($_GET["codigo"]) ? $_GET["codigo"] : null;
 	
-  $query = "Select paquete.codigo as codigo_paquete, codigo_envio, lugarOrigen, lugarDestino, costo, cedula, nombres, apellidos, telefono FROM paquete JOIN envio ON paquete.codigo_envio=envio.codigo JOIN cliente ON envio.cedula_cliente=cliente.cedula WHERE paquete.codigo ='$codigo'";
+  $query = "Select paquete.codigo as codigo_paquete, codigo_envio, lugarOrigen, lugarDestino, cedula, nombres, apellidos, telefono FROM paquete JOIN envio ON paquete.codigo_envio=envio.codigo JOIN cliente ON envio.cedula_cliente=cliente.cedula WHERE paquete.codigo ='$codigo'";
 	
  	$result = mysqli_query($conexion, $query); //or die(mysqli_error($conexion));
 	 	 

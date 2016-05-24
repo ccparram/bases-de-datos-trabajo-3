@@ -7,11 +7,10 @@
 	$codigo = isset($_POST["codigo"]) ? $_POST["codigo"] : null;
  	$lugarOrigen = isset($_POST["lugarOrigen"]) ? $_POST["lugarOrigen"] : null;
  	$lugarDestino= isset($_POST["lugarDestino"]) ? $_POST["lugarDestino"] : null;
-  $costo = 0;
   $cliente = isset($_POST["cliente"]) ? $_POST["cliente"] : null;
   
   
-	$query = "INSERT INTO envio VALUES('$codigo','$lugarOrigen','$lugarDestino','$costo','$cliente')";
+	$query = "INSERT INTO envio VALUES('$codigo','$lugarOrigen','$lugarDestino','$cliente')";
 	
  	$result = mysqli_query($conexion, $query); //or die(mysqli_error($conexion));
 	 
